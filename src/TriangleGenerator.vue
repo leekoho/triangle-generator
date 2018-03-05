@@ -348,6 +348,7 @@ border-color: ${this.setBorderColorStyle()};  ${!this.degOfRotate ? `` : `\ntran
 
 <style lang='sass' rel="stylesheet/sass">
   #triangle-generator
+    font-family: Microsoft Yahei, STXihei, Helvetica, Arial, sans-serif
     .align-center
       align-items: center
     .field-label
