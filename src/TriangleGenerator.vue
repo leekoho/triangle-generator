@@ -45,12 +45,12 @@
                 <div class="field is-narrow">
                   <div class="control">
                     <label for="iso" class="radio">
-                      <input type="radio" id="iso" name="type" value="iso" v-model="type" :disabled="isSpecialDir">
+                      <input type="radio" id="iso" name="type" value="iso" v-model.number="type" :disabled="isSpecialDir">
                       等腰
                     </label>
 
                     <label for="equ" class="radio">
-                      <input type="radio" id="equ" name="type" value="equ" v-model="type" :disabled="isSpecialDir">
+                      <input type="radio" id="equ" name="type" value="equ" v-model.number="type" :disabled="isSpecialDir">
                       等边
                     </label>
                   </div>
@@ -84,6 +84,20 @@
                            :disabled="isEquType && !isSpecialDir">
                   </p>
                   <p class="control"><span class="button" v-if="!isEquType">px</span></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="field align-center has-addons">
+              <div class="field-label is-normal">
+                <label class="label">旋转角度</label>
+              </div>
+              <div class="field-body">
+                <div class="field has-addons">
+                  <p class="control is-expanded">
+                    <input type="number" v-model.number="degOfRotate" class="input" placeholder="旋转角度">
+                  </p>
+                  <p class="control"><span class="button" v-if="!isEquType">deg</span></p>
                 </div>
               </div>
             </div>
@@ -127,21 +141,14 @@
             <div class="triangleOutput">
               <div class="triangle" ref="triangle" :style="{
                 borderColor: setBorderColorStyle(),
-                borderWidth: setBorderWidthStyle()
+                borderWidth: setBorderWidthStyle(),
+                transform: setRotateStyle()
                 }"></div>
             </div>
             <div class="cssOutput">
               <h2 class="title">CSS</h2>
               <figure class="highlight">
-<pre id="pre" @click="copyCode">
-.triangle {
-  width: 0;
-  height: 0;
-  border-style: solid;
-  border-width: {{setBorderWidthStyle()}};
-  border-color: {{setBorderColorStyle()}};
-}
-</pre>
+                <pre id="pre" @click="copyCode()">{{cssCode}}</pre>
               </figure>
             </div>
           </div>
@@ -168,6 +175,7 @@ export default {
       },
       width: 100,
       height: 100,
+      degOfRotate: 0,
       colorStyle: {
         // t => transparent  c => color
         top: '/t /t /c',
@@ -285,6 +293,10 @@ export default {
       if (isAllZero) return 0
       return curDirectionWidthStyle
     },
+    setRotateStyle () {
+      if (this.degOfRotate === 0) return 0
+      return `rotate(${this.degOfRotate}deg)`
+    },
     toast (str) {
       if (!str) return
       if (this.toastVisible) return
@@ -318,6 +330,14 @@ export default {
       return this.specialDir.some((item) => {
         return this.direction === item
       })
+    },
+    cssCode () {
+      return `width: 0;
+height: 0;
+border-style: solid;
+border-width: ${this.setBorderWidthStyle()};
+border-color: ${this.setBorderColorStyle()};  ${!this.degOfRotate ? `` : `\ntransform: ${this.setRotateStyle()};\n-webkit-transform: ${this.setRotateStyle()};`}
+`
     }
   },
   components: {
