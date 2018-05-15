@@ -161,7 +161,7 @@
 </template>
 
 <script lang="babel" type="es6">
-import {Chrome} from 'vue-color'
+import { Chrome } from 'vue-color'
 import 'bulma'
 
 export default {
@@ -171,7 +171,13 @@ export default {
       type: 'iso',
       colorType: 'hex',
       pickedColors: {
-        hex: '#e96900'
+        hex: '#e96900',
+        rgba: {
+          r: '233',
+          g: '105',
+          b: '0',
+          a: '1'
+        }
       },
       width: 100,
       height: 100,
@@ -421,9 +427,12 @@ border-color: ${this.setBorderColorStyle()};  ${!this.degOfRotate ? `` : `\ntran
     .color-picker
       display: inline-block
     .workArea
+      width: 100%
+      overflow: hidden
       .triangleOutput
         display: flex
         align-items: center
+        width: 100%
         min-height: 15em
         overflow: auto
         background: #fff
