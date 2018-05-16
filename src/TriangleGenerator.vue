@@ -139,11 +139,7 @@
           <div class="workArea column">
             <h2 class="title">预览</h2>
             <div class="triangleOutput">
-              <div class="triangle" ref="triangle" :style="{
-                borderColor: setBorderColorStyle(),
-                borderWidth: setBorderWidthStyle(),
-                transform: setRotateStyle()
-                }"></div>
+              <div class="triangle" ref="triangle" :style="cssCodeToStyle"></div>
             </div>
             <div class="cssOutput">
               <h2 class="title">CSS</h2>
@@ -344,6 +340,17 @@ border-style: solid;
 border-width: ${this.setBorderWidthStyle()};
 border-color: ${this.setBorderColorStyle()};  ${!this.degOfRotate ? `` : `\ntransform: ${this.setRotateStyle()};\n-webkit-transform: ${this.setRotateStyle()};`}
 `
+    },
+    cssCodeToStyle () {
+      let attrValArr = this.cssCode.split(';')
+      let obj = {}
+      attrValArr.forEach(item => {
+        let t = item.trim().split(': ')
+        let [attr, val] = t
+        if (attr) obj[attr] = val
+      })
+      return obj
+      // return JSON.parse(this.cssCode)
     }
   },
   components: {
